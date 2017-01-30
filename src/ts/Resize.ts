@@ -23,7 +23,7 @@ namespace app {
 
             document.body.addEventListener("mouseleave", this.notFoundWindow.bind(this), false);
             document.body.addEventListener("touchleave", this.notFoundWindow.bind(this), false);
-            
+
             document.body.addEventListener("mouseup", this.notFoundWindow.bind(this), false);
             document.body.addEventListener("touchend", this.notFoundWindow.bind(this), false);
 
@@ -46,12 +46,12 @@ namespace app {
             var y = event.pageY - this.holdWindow.offsetY;
             //this.holdWindow.setY(y);
             var x = event.pageX - this.holdWindow.offsetX;
-            
-            console.log('event.pageX : '+event.pageX + ' : ' +x);
-            
-            this.holdWindow.setWidth(x);
-            this.holdWindow.setHeight(y);
-            
+
+            console.log('event.pageX : ' + event.pageX + ' : ' + x);
+
+            if (this.holdWindow.offsetX != -1) this.holdWindow.setWidth(x);
+            if (this.holdWindow.offsetY != -1) this.holdWindow.setHeight(y);
+
             //this.holdWindow.setX(x);
             //this.holdWindow.window.style.top = event.pageY - this.holdWindow.offsetY + "px";
             //this.holdWindow.window.style.left = event.pageX - this.holdWindow.offsetX + "px";

@@ -16,6 +16,8 @@ namespace app.window {
             //this.window = window_;
 
             this.createWindow();
+            
+            this.initTitleEvent();
 
             this.initDragEvent();
             
@@ -67,6 +69,18 @@ namespace app.window {
             this.window.classList.remove('window_none');
 
         }
+        
+        public initTitleEvent() {
+            
+            var e: HTMLElement = <HTMLElement><any>(this.window.querySelector('.bar_title'));
+
+            e.addEventListener("dblclick", this.eventTitleDoubleClick.bind(this), false);
+            
+            var eI: HTMLElement = <HTMLElement><any>(this.window.querySelector('.bar_title input'));
+
+            eI.addEventListener("focusout", this.eventOutFocus.bind(this), false);
+            
+        }
 
         public initDragEvent() {
 
@@ -86,6 +100,16 @@ namespace app.window {
 
             e.addEventListener("mousedown", this.eventResizeClick.bind(this), false);
             e.addEventListener("touchstart", this.eventResizeClick.bind(this), false);
+            
+            var eW: HTMLElement = <HTMLElement><any>(this.window.querySelector('.resizeWidth'));
+
+            eW.addEventListener("mousedown", this.eventResizeWidthClick.bind(this), false);
+            eW.addEventListener("touchstart", this.eventResizeWidthClick.bind(this), false);
+            
+            var eH: HTMLElement = <HTMLElement><any>(this.window.querySelector('.resizeHeight'));
+
+            eH.addEventListener("mousedown", this.eventResizeHeightClick.bind(this), false);
+            eH.addEventListener("touchstart", this.eventResizeHeightClick.bind(this), false);
 
             //e.addEventListener("mouseup", this.notFoundWindow.bind(this), false);
             //e.addEventListener("touchend", this.notFoundWindow.bind(this), false);
@@ -110,6 +134,24 @@ namespace app.window {
         public getWindow(): HTMLElement {
             return this.window;
         }
+        
+        public eventTitleDoubleClick(e):boolean{
+            
+            e.preventDefault();
+            
+            var target: HTMLInputElement = <HTMLInputElement><any>(this.window.querySelector('.bar_title input'));
+            
+            target.disabled = "";
+            target.focus();
+            
+            return false;
+        }
+        
+        public eventOutFocus(e):void{
+            
+            e.target.disabled = true;
+            
+            }
 
         public eventBarClick(e): void {
 
@@ -152,7 +194,47 @@ namespace app.window {
             this.offsetX = event.pageX - (area_.offsetLeft + area_.offsetWidth);
             this.offsetY = event.pageY - (area_.offsetTop + area_.offsetHeight);
             
-            console.log('page : ' + event.pageX+ ', offsetLeft : ' +(area_.offsetLeft+ area_.offsetWidth) + ' : ' + this.offsetX);
+        }
+        
+        public eventResizeHeightClick(e): void {
+
+            app.Main.resize.holdWindow = this;
+
+            console.log('barClick');
+
+            //タッチデイベントとマウスのイベントの差異を吸収
+            if (e.type === "mousedown") {
+                var event = e;
+            } else {
+                var event = e.changedTouches[0];
+            }
+            
+            var area_ = e.target;
+
+            //要素内の相対座標を取得 リサイズエリアの長さを追加
+            this.offsetX = -1;
+            this.offsetY = event.pageY - (area_.offsetTop + area_.offsetHeight);
+            
+        }
+        
+        public eventResizeWidthClick(e): void {
+
+            app.Main.resize.holdWindow = this;
+
+            console.log('barClick');
+
+            //タッチデイベントとマウスのイベントの差異を吸収
+            if (e.type === "mousedown") {
+                var event = e;
+            } else {
+                var event = e.changedTouches[0];
+            }
+            
+            var area_ = e.target;
+
+            //要素内の相対座標を取得 リサイズエリアの長さを追加
+            this.offsetX = event.pageX - (area_.offsetLeft + area_.offsetWidth);
+            this.offsetY = -1;
             
         }
 
@@ -258,6 +340,12 @@ namespace app.window {
             this.window.style.height = h_ + 'px';
 
         }
+        
+        public getHeight() {
+            var or = this.window.style.height;
+            var height_ = or.substr(0, or.length - 2);
+            return height_;
+        }
 
         public getType(): string {
             return 'normal';
@@ -271,6 +359,8 @@ namespace app.window {
             data['title'] = this.getTitle();
             data['x'] = this.getX();
             data['y'] = this.getY();
+            data['width'] = this.getWidth();
+            data['height'] = this.getHeight();
 
             //data['title'] = 
 
@@ -283,6 +373,8 @@ namespace app.window {
             this.setTitle(data['title']);
             this.setX(data['x']);
             this.setY(data['y']);
+            this.setWidth(data['width']);
+            this.setHeight(data['height']);
 
         }
 

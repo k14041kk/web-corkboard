@@ -81,6 +81,18 @@ namespace app {
             var index = this.windows.indexOf(window);
             this.windows.splice(index, 1);
 
+            (<HTMLElement><any>(document.querySelector('#white_board'))).removeChild(window.getWindow());
+            
+        }
+        
+        public allDeleteWindow(){
+            
+            for(let i=0;i<this.windows.length;i++){
+                (<HTMLElement><any>(document.querySelector('#white_board'))).removeChild(this.windows[i].getWindow());
+            }
+            
+            this.windows.length = 0;
+            
         }
 
         public serializeWindow(): any {

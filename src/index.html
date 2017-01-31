@@ -29,19 +29,21 @@
         <!-- Add spacer, to align navigation to the right -->
         <div class="mdl-layout-spacer"></div>
         <!-- Navigation -->
+        <!-- 
         <nav class="mdl-navigation">
           <a class="mdl-navigation__link" href="">みかん</a> <a
             class="mdl-navigation__link" href="">リンゴ</a> <a
             class="mdl-navigation__link" href="">バナナ</a>
         </nav>
+         -->
       </div>
     </header>
     <div class="mdl-layout__drawer">
       <span class="mdl-layout-title">操作パネル</span>
       <nav class="mdl-navigation">
         <a id="new_paper" class="mdl-navigation__link" href="#">新しい紙</a>
-        <a id="save" class="mdl-navigation__link" href="#">保存</a> <a
-          class="mdl-navigation__link" href="">Link</a> <a
+        <a id="save" class="mdl-navigation__link" href="#">保存</a>
+         <a id="all_delete" class="mdl-navigation__link" href="">すべて削除</a> <a
           class="mdl-navigation__link" href="">Link</a>
       </nav>
     </div>
@@ -86,6 +88,8 @@
             <li class="mdl-menu__item">最小化</li>
             <li class="mdl-menu__item">保護</li>
             <li disabled class="mdl-menu__item">共有</li>
+            <li class="mdl-menu__item color_change">色を変える
+            <input type="color" class="menu_color" value="#3F51B5" style="visibility: hidden;width: 0px;"></li>
             <li class="mdl-menu__item">設定</li>
           </ul>
 
@@ -103,6 +107,17 @@
     </div>
     </main>
   </div>
+  <dialog id='all_delete_dialog' class="mdl-dialog">
+    <div class="mdl-dialog__content">
+      <p>
+        メモを全て削除しますか?
+      </p>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button id="delete_dialog_ok" type="button" class="mdl-button mdl-js-button mdl-button--accent">削除</button>
+      <button id="delete_dialog_cancel" type="button" class="mdl-button close">キャンセル</button>
+    </div>
+  </dialog>
 </body>
 
 </html>

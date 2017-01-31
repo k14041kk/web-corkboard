@@ -16,11 +16,11 @@ namespace app.window {
             //this.window = window_;
 
             this.createWindow();
-            
+
             this.initTitleEvent();
 
             this.initDragEvent();
-            
+
             this.initResizeEvent();
 
             this.initBarButtonEvent();
@@ -69,17 +69,17 @@ namespace app.window {
             this.window.classList.remove('window_none');
 
         }
-        
+
         public initTitleEvent() {
-            
+
             var e: HTMLElement = <HTMLElement><any>(this.window.querySelector('.bar_title'));
 
             e.addEventListener("dblclick", this.eventTitleDoubleClick.bind(this), false);
-            
+
             var eI: HTMLElement = <HTMLElement><any>(this.window.querySelector('.bar_title input'));
 
             eI.addEventListener("focusout", this.eventOutFocus.bind(this), false);
-            
+
         }
 
         public initDragEvent() {
@@ -93,19 +93,19 @@ namespace app.window {
             e.addEventListener("touchend", this.notFoundWindow.bind(this), false);
 
         }
-        
-        public initResizeEvent(){
-            
+
+        public initResizeEvent() {
+
             var e: HTMLElement = <HTMLElement><any>(this.window.querySelector('.resizeXY'));
 
             e.addEventListener("mousedown", this.eventResizeClick.bind(this), false);
             e.addEventListener("touchstart", this.eventResizeClick.bind(this), false);
-            
+
             var eW: HTMLElement = <HTMLElement><any>(this.window.querySelector('.resizeWidth'));
 
             eW.addEventListener("mousedown", this.eventResizeWidthClick.bind(this), false);
             eW.addEventListener("touchstart", this.eventResizeWidthClick.bind(this), false);
-            
+
             var eH: HTMLElement = <HTMLElement><any>(this.window.querySelector('.resizeHeight'));
 
             eH.addEventListener("mousedown", this.eventResizeHeightClick.bind(this), false);
@@ -113,7 +113,7 @@ namespace app.window {
 
             //e.addEventListener("mouseup", this.notFoundWindow.bind(this), false);
             //e.addEventListener("touchend", this.notFoundWindow.bind(this), false);
-            
+
         }
 
         public initBarButtonEvent() {
@@ -121,6 +121,36 @@ namespace app.window {
             var e: HTMLElement = <HTMLElement><any>(this.window.querySelector('.delete'));
 
             e.addEventListener("click", this.deleteWindow.bind(this), false);
+
+            //メニューの処理
+            var color: HTMLElement = <HTMLElement><any>(this.window.querySelector('.color_change'));
+
+
+
+            color.addEventListener("click", function() {
+
+                var menu_color: HTMLElement = <HTMLElement><any>(this.window.querySelector('.menu_color'));
+
+                var event = document.createEvent("MouseEvents"); // イベントオブジェクトを作成
+                event.initEvent("click", false, true); // イベントの内容を設定
+                menu_color.dispatchEvent(event);
+                
+                menu_color.style.display = "";
+
+            }.bind(this), false);
+
+
+            var menu_color: HTMLInputElement = <HTMLInputElement><any>(this.window.querySelector('.menu_color'));
+
+            menu_color.addEventListener("input", function(event) {
+                var color_ = menu_color.value;
+                
+                this.changeBarColor(color_);
+                
+                
+            }.bind(this), false);
+
+
 
         }
 
@@ -134,24 +164,24 @@ namespace app.window {
         public getWindow(): HTMLElement {
             return this.window;
         }
-        
-        public eventTitleDoubleClick(e):boolean{
-            
+
+        public eventTitleDoubleClick(e): boolean {
+
             e.preventDefault();
-            
+
             var target: HTMLInputElement = <HTMLInputElement><any>(this.window.querySelector('.bar_title input'));
-            
-            target.disabled = "";
+
+            target.disabled = false;
             target.focus();
-            
+
             return false;
         }
-        
-        public eventOutFocus(e):void{
-            
+
+        public eventOutFocus(e): void {
+
             e.target.disabled = true;
-            
-            }
+
+        }
 
         public eventBarClick(e): void {
 
@@ -159,7 +189,6 @@ namespace app.window {
 
             app.Main.drag.holdWindow = this;
 
-            console.log('barClick');
 
             //タッチデイベントとマウスのイベントの差異を吸収
             if (e.type === "mousedown") {
@@ -171,7 +200,7 @@ namespace app.window {
             //要素内の相対座標を取得
             this.offsetX = event.pageX - this.window.offsetLeft;
             this.offsetY = event.pageY - this.window.offsetTop;
-            
+
 
         }
 
@@ -179,7 +208,6 @@ namespace app.window {
 
             app.Main.resize.holdWindow = this;
 
-            console.log('barClick');
 
             //タッチデイベントとマウスのイベントの差異を吸収
             if (e.type === "mousedown") {
@@ -187,15 +215,15 @@ namespace app.window {
             } else {
                 var event = e.changedTouches[0];
             }
-            
+
             var area_ = e.target;
 
             //要素内の相対座標を取得 リサイズエリアの長さを追加
             this.offsetX = event.pageX - (area_.offsetLeft + area_.offsetWidth);
             this.offsetY = event.pageY - (area_.offsetTop + area_.offsetHeight);
-            
+
         }
-        
+
         public eventResizeHeightClick(e): void {
 
             app.Main.resize.holdWindow = this;
@@ -208,15 +236,15 @@ namespace app.window {
             } else {
                 var event = e.changedTouches[0];
             }
-            
+
             var area_ = e.target;
 
             //要素内の相対座標を取得 リサイズエリアの長さを追加
             this.offsetX = -1;
             this.offsetY = event.pageY - (area_.offsetTop + area_.offsetHeight);
-            
+
         }
-        
+
         public eventResizeWidthClick(e): void {
 
             app.Main.resize.holdWindow = this;
@@ -229,18 +257,16 @@ namespace app.window {
             } else {
                 var event = e.changedTouches[0];
             }
-            
+
             var area_ = e.target;
 
             //要素内の相対座標を取得 リサイズエリアの長さを追加
             this.offsetX = event.pageX - (area_.offsetLeft + area_.offsetWidth);
             this.offsetY = -1;
-            
+
         }
 
         public notFoundWindow(e) {
-
-            console.log('WindowBase : notFoundWindow');
 
             app.Main.drag.holdWindow = null;
 
@@ -248,12 +274,16 @@ namespace app.window {
 
         public deleteWindow(e) {
 
-
             app.Main.windowManager.deleteWindow(this);
 
-            (<HTMLElement><any>(document.querySelector('#white_board'))).removeChild(this.window);
-
-
+        }
+        
+        public changeBarColor(color){
+            
+            var toolbar: HTMLInputElement = <HTMLInputElement><any>(this.window.querySelector('.bar'));
+            
+            toolbar.style.backgroundColor = color;
+            
         }
 
         public getTemplateID(): string {
@@ -316,15 +346,15 @@ namespace app.window {
         }
 
         public setWidth(w: number) {
-            
-            var w_ : number = w;
-            
+
+            var w_: number = w;
+
             if (w_ < 80) w_ = 80;
-            
+
             this.window.style.width = w_ + 'px';
 
         }
-        
+
         public getWidth() {
             var or = this.window.style.width;
             var width_ = or.substr(0, or.length - 2);
@@ -332,19 +362,42 @@ namespace app.window {
         }
 
         public setHeight(h: number) {
-            
-             var h_ : number = h;
-            
+
+            var h_: number = h;
+
             if (h_ < 100) h_ = 100;
 
             this.window.style.height = h_ + 'px';
 
         }
-        
+
         public getHeight() {
             var or = this.window.style.height;
             var height_ = or.substr(0, or.length - 2);
             return height_;
+        }
+        
+        public getColor():string{
+         
+            var toolbar: HTMLInputElement = <HTMLInputElement><any>(this.window.querySelector('.bar'));
+            
+            if(toolbar.style.backgroundColor==null)return '#3F51B5';
+            if(toolbar.style.backgroundColor=="")return '#3F51B5';
+            
+            return toolbar.style.backgroundColor;
+            
+        }
+        
+        public setColor(color:string){
+            
+            var menu_color: HTMLInputElement = <HTMLInputElement><any>(this.window.querySelector('.menu_color'));
+            if(color.indexOf('rgb')!=-1){
+                menu_color.value = converterRGB(color);
+            }else{
+                menu_color.value = color;
+            }
+            this.changeBarColor(color);
+            
         }
 
         public getType(): string {
@@ -361,6 +414,7 @@ namespace app.window {
             data['y'] = this.getY();
             data['width'] = this.getWidth();
             data['height'] = this.getHeight();
+            data['toolbar_color'] = this.getColor();
 
             //data['title'] = 
 
@@ -375,6 +429,7 @@ namespace app.window {
             this.setY(data['y']);
             this.setWidth(data['width']);
             this.setHeight(data['height']);
+            this.setColor(data['toolbar_color']);
 
         }
 

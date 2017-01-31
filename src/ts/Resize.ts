@@ -47,8 +47,6 @@ namespace app {
             //this.holdWindow.setY(y);
             var x = event.pageX - this.holdWindow.offsetX;
 
-            console.log('event.pageX : ' + event.pageX + ' : ' + x);
-
             if (this.holdWindow.offsetX != -1) this.holdWindow.setWidth(x);
             if (this.holdWindow.offsetY != -1) this.holdWindow.setHeight(y);
 

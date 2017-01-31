@@ -11,11 +11,13 @@ namespace app.window {
         public offsetY = 0;
 
 
-        public constructor() {
+        public constructor(animation?:boolean) {
 
             //this.window = window_;
+            
+            
 
-            this.createWindow();
+            this.createWindow(animation==null?true:animation);
 
             this.initTitleEvent();
 
@@ -27,7 +29,7 @@ namespace app.window {
 
         }
 
-        public createWindow() {
+        public createWindow(animation:boolean) {
 
             var t: HTMLTemplateElement = <any>document.querySelector('#' + this.getTemplateID());
 
@@ -36,6 +38,8 @@ namespace app.window {
 
             var cardAdd: HTMLElement = <HTMLElement><any>(<HTMLElement><any>(document.querySelector('#white_board'))).lastElementChild;
 
+            if(!animation)cardAdd.classList.add('not_animation');
+            
             setTimeout(this.addWindowAnimation.bind(this), 100);
 
             //デフォルトの位置を設定
@@ -149,6 +153,10 @@ namespace app.window {
                 
                 
             }.bind(this), false);
+            
+            var protect: HTMLElement = <HTMLElement><any>(this.window.querySelector('.protect'));
+            
+            protect.addEventListener("click", this.changeProtect.bind(this), false);
 
 
 
@@ -286,6 +294,16 @@ namespace app.window {
             
         }
 
+        public changeProtect(){
+            
+            var delete_: HTMLButtonElement = <HTMLButtonElement><any>(this.window.querySelector('.delete'));
+            
+            var deleteIcon_: HTMLElement = <HTMLElement><any>(this.window.querySelector('.delete i'));
+            
+            this.setProtect(!delete_.disabled);
+            
+        }
+        
         public getTemplateID(): string {
             return "none";
         }
@@ -399,6 +417,28 @@ namespace app.window {
             this.changeBarColor(color);
             
         }
+        
+        public setProtect(protect){
+            
+            var delete_: HTMLButtonElement = <HTMLButtonElement><any>(this.window.querySelector('.delete'));
+            
+            var deleteIcon_: HTMLElement = <HTMLElement><any>(this.window.querySelector('.delete i'));
+            
+            delete_.disabled = protect;
+            
+            if(delete_.disabled){
+                deleteIcon_.innerHTML = "lock";
+            }else{
+                deleteIcon_.innerHTML = "close";
+            }
+            
+        }
+        
+        public getProtect(){
+            var delete_: HTMLButtonElement = <HTMLButtonElement><any>(this.window.querySelector('.delete'));
+            
+            return delete_.disabled;
+        }
 
         public getType(): string {
             return 'normal';
@@ -415,6 +455,7 @@ namespace app.window {
             data['width'] = this.getWidth();
             data['height'] = this.getHeight();
             data['toolbar_color'] = this.getColor();
+            data['protect'] = this.getProtect();
 
             //data['title'] = 
 
@@ -430,6 +471,7 @@ namespace app.window {
             this.setWidth(data['width']);
             this.setHeight(data['height']);
             this.setColor(data['toolbar_color']);
+            this.setProtect(data['protect']);
 
         }
 

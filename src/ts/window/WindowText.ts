@@ -5,8 +5,8 @@ namespace app.window {
 
         public static get TYPE():string { return 'text'; }
 
-        public constructor() {
-            super();
+        public constructor(animation?) {
+            super(animation);
 
         }
 

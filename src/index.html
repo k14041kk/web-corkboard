@@ -43,8 +43,7 @@
       <nav class="mdl-navigation">
         <a id="new_paper" class="mdl-navigation__link" href="#">新しい紙</a>
         <a id="save" class="mdl-navigation__link" href="#">保存</a>
-         <a id="all_delete" class="mdl-navigation__link" href="">すべて削除</a> <a
-          class="mdl-navigation__link" href="">Link</a>
+         <a id="all_delete" class="mdl-navigation__link" href="">すべて削除</a>
       </nav>
     </div>
     <main id="white_board_main" class="mdl-layout__content">
@@ -85,12 +84,10 @@
           <ul
             class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
             for="demo-menu-lower-right">
-            <li class="mdl-menu__item">最小化</li>
-            <li class="mdl-menu__item">保護</li>
+            <li class="protect mdl-menu__item">保護</li>
             <li disabled class="mdl-menu__item">共有</li>
             <li class="mdl-menu__item color_change">色を変える
             <input type="color" class="menu_color" value="#3F51B5" style="visibility: hidden;width: 0px;"></li>
-            <li class="mdl-menu__item">設定</li>
           </ul>
 
 
@@ -110,7 +107,8 @@
   <dialog id='all_delete_dialog' class="mdl-dialog">
     <div class="mdl-dialog__content">
       <p>
-        メモを全て削除しますか?
+        メモを全て削除しますか?<br>
+        ※ 保護されているメモも削除します
       </p>
     </div>
     <div class="mdl-dialog__actions">

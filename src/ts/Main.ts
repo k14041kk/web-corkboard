@@ -14,6 +14,8 @@ namespace app {
         public static windowManager: app.WindowManager;
 
         public static save: app.Save;
+        
+        public static historyManager : app.History;
 
         public static init(): void {
 
@@ -37,7 +39,11 @@ namespace app {
 
             app.Main.windowManager = new app.WindowManager();
 
+            app.Main.historyManager = new app.History();
+            
             app.Main.save = new app.Save();
+            
+            
 
             setTimeout(app.Main.postInit, 1000);
             //app.Main.postInit();
@@ -51,6 +57,8 @@ namespace app {
             app.Main.save.load();
 
             loading.style.display = 'none';
+            
+            app.Main.saveHistory();
 
 
 
@@ -65,6 +73,8 @@ namespace app {
 
             //紙を追加
             app.Main.windowManager.addTextWindow();
+            
+            app.Main.save.save();
 
         }
 
@@ -136,6 +146,12 @@ namespace app {
                 
             });
 
+        }
+        
+        public static saveHistory(){
+            
+            history.pushState(app.Main.save.getNowSaveDate(), "Home" ,"");
+            
         }
 
     }

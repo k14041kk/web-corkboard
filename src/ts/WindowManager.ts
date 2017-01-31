@@ -113,18 +113,22 @@ namespace app {
 
         }
 
-        public deserializeWindows(data: any) {
-
+        public deserializeWindows(data: any,animation_?:boolean) {
+            
             var size = data['size'];
 
             var windows = data['windows'];
+            
+            var animation = true;
+            
+            if(animation_!=null)animation= animation_;
 
             for (let i = 0; i < size; i++) {
 
                 var w_data = windows[i];
                 var window;
                 if (w_data['type'] == app.window.WindowText.TYPE) {
-                    window = new app.window.WindowText();
+                    window = new app.window.WindowText(animation);
                 }
 
                 window.deserialize(w_data);

@@ -29,6 +29,11 @@
 	right: 0;
 }
 
+
+.not_animation{
+	transition:none !important;
+}
+
 .window_none{
 	opacity:0;
 	transform: scale(0.8);

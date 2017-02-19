@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>コルクボード</title>
+<link rel="stylesheet" href="./css/material.min.css">
+<script src="./js/material.min.js"></script>
+<script src="./js/dexie.min.js"></script>
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<script src="./js/app.js"></script>
+<link rel="stylesheet" href="./css/main.css">
+
+</head>
+
+<body>
+  <script type="text/javascript">
+			function openPaintWindow() {
+				window.open('./index.html', 'main', 'chrome');
+			}
+		</script>
+  <!-- Uses a header that scrolls with the text, rather than staying
+  locked at the top -->
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header mdl-layout__header--scroll">
+      <div class="mdl-layout__header-row">
+        <!-- Title -->
+        <span class="mdl-layout-title">コルクボード</span>
+        <!-- Add spacer, to align navigation to the right -->
+        <div class="mdl-layout-spacer"></div>
+        <!-- Navigation -->
+        <!-- 
+        <nav class="mdl-navigation">
+          <a class="mdl-navigation__link" href="">みかん</a> <a
+            class="mdl-navigation__link" href="">リンゴ</a> <a
+            class="mdl-navigation__link" href="">バナナ</a>
+        </nav>
+         -->
+      </div>
+    </header>
+    <div class="mdl-layout__drawer">
+      <span class="mdl-layout-title">操作パネル</span>
+      <nav class="mdl-navigation">
+        <a id="new_paper" class="mdl-navigation__link" href="#">新しい紙</a>
+        <a id="save" class="mdl-navigation__link" href="#">保存</a>
+         <a id="all_delete" class="mdl-navigation__link" href="">すべて削除</a>
+      </nav>
+    </div>
+    <main id="white_board_main" class="mdl-layout__content">
+
+    <div id="load-whopper">
+      <div id="window-load" class="mdl-spinner mdl-js-spinner is-active"></div>
+    </div>
+
+    <div id="white_board" class="page-content">
+
+      <!-- 
+      	<canvas id="canvas"></canvas>
+
+        <div class="mdl-card mdl-shadow--2dp">
+          <div class="mdl-card__media">
+          </div>
+        </div>
+        
+         -->
+
+
+
+      <template id="text_card">
+      <div class="mdl-card mdl-shadow--2dp card_window window_none">
+        <div class="bar">
+          <button
+            class="mdl-button mdl-js-button mdl-button--icon delete">
+            <i class="material-icons">close</i>
+          </button>
+          <div class="bar_title">
+            <input type="text" value="新しい紙" disabled class="bar_title_text"
+              rows="1" cols="20"/>
+              
+          </div>
+          <button id="demo-menu-lower-right"
+            class="menu-lower-right mdl-button mdl-js-button mdl-button--icon">
+            <i class="material-icons">more_vert</i>
+          </button>
+          <ul
+            class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+            for="demo-menu-lower-right">
+            <li class="protect mdl-menu__item">保護</li>
+            <li class="mdl-menu__item color_change">色を変える
+            <input type="color" class="menu_color" value="#3F51B5" style="visibility: hidden;width: 0px;"></li>
+          </ul>
+
+
+        </div>
+        <div class="card_content">
+          <textarea>メモ用紙</textarea>
+        </div>
+        <span class="resizeWidth"></span>
+        <span class="resizeHeight"></span>
+        <span class="resizeXY"></span>
+      </div>
+      </template>
+      <!-- Your content goes here -->
+    </div>
+    </main>
+  </div>
+  <dialog id='all_delete_dialog' class="mdl-dialog">
+    <div class="mdl-dialog__content">
+      <p>
+        メモを全て削除しますか?<br>
+        ※ 保護されているメモも削除します
+      </p>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button id="delete_dialog_ok" type="button" class="mdl-button mdl-js-button mdl-button--accent">削除</button>
+      <button id="delete_dialog_cancel" type="button" class="mdl-button close">キャンセル</button>
+    </div>
+  </dialog>
+</body>
+
+</html>

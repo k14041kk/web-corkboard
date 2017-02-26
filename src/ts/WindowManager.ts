@@ -29,33 +29,17 @@ namespace app {
 
         }
 
+        /** メモカードを追加 */
         public addTextWindow(title?: string, text?: string, x?: number, y?: number) {
 
             var window = new app.window.WindowText();
+            window.createDB(function(){
+                //DBの処理が終わったらJsonに書き出し
+                console.log('[WindowManager] addTextWindow : saveJson');
+                app.Main.save.saveJson();
+            });//DBに保存
 
-            /*var t = <HTMLTemplateElement>document.querySelector('#text_card');
-
-            var card = document.importNode(t.content, true);
-            document.querySelector('#white_board').appendChild(card);
-
-            var cardAdd: HTMLElement = <HTMLElement>(<HTMLElement>document.querySelector('#white_board')).lastElementChild;
-
-            if (title != null) {
-                var tElement: HTMLInputElement = <HTMLInputElement>(cardAdd.querySelector(".bar_title input"));
-                tElement.value = title;
-            }
-
-            if (text != null) {
-                var textElement: HTMLTextAreaElement = <HTMLTextAreaElement>(cardAdd.querySelector(".card_content textarea"));
-                textElement.value = text;
-            }
-
-            cardAdd.style.top = y != null ? y + "px" : "40px";
-            cardAdd.style.left = x != null ? x + "px" : "100px";
-            //app.Main.drag.initDrag(<Element>cardAdd);*/
-
-            //var window = new app.window.WindowText();
-
+        
             if (title != null) {
                 window.setTitle(title);
             }
@@ -76,6 +60,43 @@ namespace app {
 
         }
 
+        /** Imageカードを追加 */
+        public addImageWindow(title?: string, url?: Blob, x?: number, y?: number) {
+
+            var window = new app.window.WindowImage();
+            window.createDB(function(){
+                //DBの処理が終わったらJsonに書き出し
+                console.log('[WindowManager] addTextWindow : saveJson');
+                app.Main.save.saveJson();
+            });//DBに保存
+            
+
+        
+            if (title != null) {
+                window.setTitle(title);
+            }
+
+            if(url!=null){
+                window.setImage(url);
+            }
+
+            //if (text != null) {
+            //    window.setText(text);
+            //}
+
+            if (y != null) {
+                window.setY(y);
+            }
+
+            if (x != null) {
+                window.setX(x);
+            }
+
+            this.addWindow(window);
+
+        }
+
+
         public deleteWindow(window) {
 
             var index = this.windows.indexOf(window);
@@ -95,6 +116,7 @@ namespace app {
             
         }
 
+        //保存
         public serializeWindow(): any {
 
             var data = {};
@@ -105,6 +127,7 @@ namespace app {
             for (let i = 0; i < this.windows.length; i++) {
 
                 data['windows'][i] = this.windows[i].serialize();
+                //this.windows[i].saveDB();
 
             }
 
@@ -113,6 +136,7 @@ namespace app {
 
         }
 
+        //復帰
         public deserializeWindows(data: any,animation_?:boolean) {
             
             var size = data['size'];
@@ -130,10 +154,34 @@ namespace app {
                 if (w_data['type'] == app.window.WindowText.TYPE) {
                     window = new app.window.WindowText(animation);
                 }
+                if (w_data['type'] == app.window.WindowImage.TYPE) {
+                    window = new app.window.WindowImage(animation);
+                }
 
                 window.deserialize(w_data);
 
                 this.windows.push(window);
+
+            }
+
+        }
+
+        public allSaveDB(){
+
+            for (let i = 0; i < this.windows.length; i++) {
+
+                //保存
+                this.windows[i].saveDB();
+
+            }
+            
+        }
+
+        public allLoadDB(){
+
+            for (let i = 0; i < this.windows.length; i++) {
+                //読み込み
+                this.windows[i].loadDB();
 
             }
 

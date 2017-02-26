@@ -16,6 +16,8 @@ namespace app {
         public static save: app.Save;
         
         public static historyManager : app.History;
+        
+        public static dbManager  :app.DB;
 
         public static init(): void {
 
@@ -24,6 +26,7 @@ namespace app {
             this.windows = new Array();
 
             document.getElementById('new_paper').addEventListener('click', app.Main.addPaper, false);
+            document.getElementById('new_image').addEventListener('click', app.Main.addImage, false);
 
             document.getElementById('save').addEventListener('click', app.Main.saveDate, false);
 
@@ -43,7 +46,9 @@ namespace app {
             
             app.Main.save = new app.Save();
             
+            app.Main.dbManager = new app.DB();
             
+            app.Main.initEventChangeImageFile();
 
             setTimeout(app.Main.postInit, 1000);
             //app.Main.postInit();
@@ -54,7 +59,11 @@ namespace app {
 
             var loading: HTMLElement = <HTMLElement><any>(document.querySelector('#load-whopper'));
 
+            //Jsonで保存しているやつの読み込み　
             app.Main.save.load();
+
+            //DBを使っているやつの読み込み
+            app.Main.save.loadDB();
 
             loading.style.display = 'none';
             
@@ -74,7 +83,7 @@ namespace app {
             //紙を追加
             app.Main.windowManager.addTextWindow();
             
-            app.Main.save.save();
+            //app.Main.save.saveJson();
 
         }
 
@@ -106,6 +115,51 @@ namespace app {
 
         }
 
+        public static addImage(e): void {
+
+            e.preventDefault();
+
+            var element = document.getElementById("new_image_input");
+            element.click();
+
+            console.log('紙を追加');
+            let d: any = document.querySelector('.mdl-layout');
+            //d.MaterialLayout.toggleDrawer();
+
+            
+
+            //紙を追加
+            //app.Main.windowManager.addTextWindow();
+            
+            //app.Main.save.saveJson();
+
+        }
+
+        public static initEventChangeImageFile():void {
+
+            var input_file = document.getElementById("new_image_input") as HTMLInputElement;
+
+            input_file.onchange = function () {
+
+                // ファイルが選択されたか
+                if (input_file.value) {
+
+                    var url = input_file.files[0];
+                    app.Main.windowManager.addImageWindow('新しい画像',url);
+
+                    console.log("ファイルが選択された:" + input_file.value);
+                    input_file.value = null;
+
+                } else {
+
+                    console.log("ファイルが未選択");
+
+                }
+
+            };
+
+        }
+
         public static dropCancel(e) {
             e.preventDefault();
             return false;
@@ -114,7 +168,8 @@ namespace app {
         public static saveDate(e) {
             e.preventDefault();
 
-            app.Main.save.save();
+            app.Main.save.saveJson();
+            app.Main.save.saveDB();
 
             let d: any = document.querySelector('.mdl-layout');
             d.MaterialLayout.toggleDrawer();

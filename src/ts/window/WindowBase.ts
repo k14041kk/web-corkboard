@@ -475,6 +475,18 @@ namespace app.window {
 
         }
 
+        /**
+         * インスタンス生成時のDBの初期化
+         * 
+         */
+        public createDB(){};
+
+        /** DBに書き込む　 */
+        public saveDB(){};
+
+        /** DBから読み込む */
+        public loadDB(){};
+
 
     }
 

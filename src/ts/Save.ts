@@ -24,12 +24,22 @@ namespace app {
             app.Main.windowManager.allDeleteWindow();
             
             app.Main.windowManager.deserializeWindows(data,animation);
+
+
             
             console.log('Save : loaded');
             
         }
+
+        public loadDB(){
+
+            console.log('[Save] loadDB() : load');
+
+            app.Main.windowManager.allLoadDB();
+            
+        }
         
-        public save(){
+        public saveJson(){
             
             app.Main.saveHistory();
             
@@ -39,6 +49,13 @@ namespace app {
             
             localStorage.setItem('data',data_text);
             
+        }
+
+        public saveDB(){
+
+            //WindowsManagerに保存処理を委託
+            app.Main.windowManager.allSaveDB();
+
         }
         
         public getNowSaveDate(){

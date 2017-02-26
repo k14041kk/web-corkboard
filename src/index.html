@@ -5,6 +5,7 @@
 <title>コルクボード</title>
 <link rel="stylesheet" href="./css/material.min.css">
 <script src="./js/material.min.js"></script>
+<script src="./js/dexie.js"></script>
 <link rel="stylesheet"
   href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
@@ -41,7 +42,8 @@
     <div class="mdl-layout__drawer">
       <span class="mdl-layout-title">操作パネル</span>
       <nav class="mdl-navigation">
-        <a id="new_paper" class="mdl-navigation__link" href="#">新しい紙</a>
+        <a id="new_paper" class="mdl-navigation__link" href="#">新しいメモ</a>
+        <a id="new_image" class="mdl-navigation__link" href="#">新しい画像</a><input id="new_image_input" type="file" style="display: none">
         <a id="save" class="mdl-navigation__link" href="#">保存</a>
          <a id="all_delete" class="mdl-navigation__link" href="">すべて削除</a>
       </nav>
@@ -66,6 +68,7 @@
 
 
 
+      <!-- ▼▼ メモカード ▼▼ -->
       <template id="text_card">
       <div class="mdl-card mdl-shadow--2dp card_window window_none">
         <div class="bar">
@@ -75,7 +78,7 @@
           </button>
           <div class="bar_title">
             <input type="text" value="新しい紙" disabled class="bar_title_text"
-              rows="1" cols="20"/>
+              rows="1" cols="20"/>   
           </div>
           <button id="demo-menu-lower-right"
             class="menu-lower-right mdl-button mdl-js-button mdl-button--icon">
@@ -85,7 +88,6 @@
             class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
             for="demo-menu-lower-right">
             <li class="protect mdl-menu__item">保護</li>
-            <li disabled class="mdl-menu__item">共有</li>
             <li class="mdl-menu__item color_change">色を変える
             <input type="color" class="menu_color" value="#3F51B5" style="visibility: hidden;width: 0px;"></li>
           </ul>
@@ -100,6 +102,42 @@
         <span class="resizeXY"></span>
       </div>
       </template>
+      <!-- ▲▲ メモカード ▲▲ -->
+
+      <!-- ▼▼ 画像カード ▼▼ -->
+      <template id="image_card">
+      <div class="mdl-card mdl-shadow--2dp card_window window_none">
+        <div class="bar">
+          <button
+            class="mdl-button mdl-js-button mdl-button--icon delete">
+            <i class="material-icons">close</i>
+          </button>
+          <div class="bar_title">
+            <input type="text" value="新しい紙" disabled class="bar_title_text"
+              rows="1" cols="20"/>   
+          </div>
+          <button id="demo-menu-lower-right"
+            class="menu-lower-right mdl-button mdl-js-button mdl-button--icon">
+            <i class="material-icons">more_vert</i>
+          </button>
+          <ul
+            class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+            for="demo-menu-lower-right">
+            <li class="protect mdl-menu__item">保護</li>
+            <li class="mdl-menu__item color_change">色を変える
+            <input type="color" class="menu_color" value="#3F51B5" style="visibility: hidden;width: 0px;"></li>
+          </ul>
+        </div>
+        <div class="card_content">
+          <img>
+        </div>
+        <span class="resizeWidth"></span>
+        <span class="resizeHeight"></span>
+        <span class="resizeXY"></span>
+      </div>
+      </template>
+      <!-- ▲▲ 画像カード ▲▲ -->
+
       <!-- Your content goes here -->
     </div>
     </main>
